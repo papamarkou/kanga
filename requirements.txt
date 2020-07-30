@@ -1,0 +1,5 @@
+numpy
+scipy
+arviz>=0.9.0
+matplotlib
+seaborn

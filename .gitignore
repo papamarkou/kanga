@@ -1,0 +1,8 @@
+build/
+dist/
+kanga.egg-info/
+kanga/__pycache__/
+kanga/plots/__pycache__/
+kanga/stats/__pycache__/
+tests/__pycache__/
+tmp/
