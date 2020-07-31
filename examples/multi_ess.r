@@ -6,7 +6,7 @@ library(mcmcse)
 
 ## Read chains
 
-chains <- read.table(file="chains01.csv", header=FALSE, sep=",")
+chains <- read.table(file="chain01.csv", header=FALSE, sep=",")
 
 ## Compute multivariate ESS
 
