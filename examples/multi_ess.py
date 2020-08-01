@@ -9,6 +9,10 @@ import numpy as np
 # mport statsmodels.api as sm
 # from statsmodels.tsa.ar_model import AutoReg
 from statsmodels.tsa.ar_model import ar_select_order
+from statsmodels.tsa.stattools import acovf
+
+# https://stats.stackexchange.com/questions/371792/sum-of-autocovariances-for-arp-model/372006#372006
+# https://arxiv.org/pdf/1804.05975.pdf
 
 # %%
 
@@ -23,10 +27,30 @@ def arp_approximation(x):
         seasonal=False
     )
 
+    ar_selection_order = ar_selection.ar_lags[-1]
+
+    gammas = acovf(x, nlag=ar_selection_order-1, fft=False)
+
     model_fit = ar_selection.model.fit()
-    asympt_var = model_fit.sigma2 / ((1 - model_fit.params.sum())**2)
     
-    return asympt_var
+    param_sum = model_fit.params.sum()
+
+    asympt_var = model_fit.sigma2 / ((1 - param_sum)**2)
+
+    if (ar_selection_order != 0):
+        Gamma = 0
+
+        for i in range(1, ar_selection_order + 1):
+            for k in range(1, i + 1):
+                Gamma = Gamma + model_fit.params[i - 1] * k * gammas[i-k]
+
+        Gamma = 2 * (
+            Gamma + 0.5 * (asympt_var - gammas[0]) * (model_fit.params * range(1, ar_selection_order + 1)).sum()
+            ) / (1 - param_sum)
+    else:
+        Gamma = 0
+
+    return Gamma, asympt_var
 
 def optimal_batch_size(x):
     pass
@@ -53,18 +77,22 @@ chains = np.genfromtxt('chain01.csv', delimiter=',')
 
 # %%
 
-num_iters, num_pars = chains.shape
+Gamma, asympt_var = arp_approximation(chains[:, 0])
 
-selection = ar_select_order(
-    chains[:, 0],
-    min(int(np.floor(num_iters)), int(np.floor(10 * np.log10(num_iters)))),
-    ic='aic',
-    trend='n',
-    seasonal=False
-)
-print(selection.ar_lags)
-res = selection.model.fit()
-print(res.summary())
+# %%
+
+# num_iters, num_pars = chains.shape
+
+# selection = ar_select_order(
+#     chains[:, 0],
+#     min(int(np.floor(num_iters)), int(np.floor(10 * np.log10(num_iters)))),
+#     ic='aic',
+#     trend='n',
+#     seasonal=False
+# )
+# print(selection.ar_lags)
+# res = selection.model.fit()
+# print(res.summary())
 
 # %%
 
