@@ -21,7 +21,7 @@ num_pars <-  dim(chains)[2]
 
 chain = chains[, 1]
 
-ar.fit <- ar(chain, aic=TRUE)
+ar.fit <- ar(chain, aic=TRUE, method="yule-walker", order.max=2)
 
 gammas <- as.numeric(acf(chain, type="covariance", lag.max=ar.fit$order, plot=FALSE)$acf)
 
@@ -42,3 +42,7 @@ if(ar.fit$order != 0)
 } else{
   Gamma <- 0
 }
+
+print(Gamma)
+print(asympt_var)
+print(ar.fit$ar)

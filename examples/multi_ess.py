@@ -13,10 +13,12 @@ from statsmodels.tsa.stattools import acovf
 
 # https://stats.stackexchange.com/questions/371792/sum-of-autocovariances-for-arp-model/372006#372006
 # https://arxiv.org/pdf/1804.05975.pdf
+# http://stat.wharton.upenn.edu/~steele/Courses/956/Resource/YWSourceFiles/WhyNotToUseYW.pdf
+# https://ieeexplore.ieee.org/document/4547058
 
 # %%
 
-def arp_approximation(x):
+def approx_via_arp(x):
     n = len(x)
 
     ar_selection = ar_select_order(
@@ -35,14 +37,14 @@ def arp_approximation(x):
     
     param_sum = model_fit.params.sum()
 
-    asympt_var = model_fit.sigma2 / ((1 - param_sum)**2)
+    asympt_var = model_fit.sigma2 / ((1 - param_sum) ** 2)
 
     if (ar_selection_order != 0):
         Gamma = 0
 
-        for i in range(1, ar_selection_order + 1):
-            for k in range(1, i + 1):
-                Gamma = Gamma + model_fit.params[i - 1] * k * gammas[i-k]
+        for i in range(1, ar_selection_order+1):
+            for k in range(1, i+1):
+                Gamma = Gamma + model_fit.params[i-1] * k * gammas[i-k]
 
         Gamma = 2 * (
             Gamma + 0.5 * (asympt_var - gammas[0]) * (model_fit.params * range(1, ar_selection_order + 1)).sum()
@@ -77,22 +79,47 @@ chains = np.genfromtxt('chain01.csv', delimiter=',')
 
 # %%
 
-Gamma, asympt_var = arp_approximation(chains[:, 0])
+Gamma, asympt_var = approx_via_arp(chains[:, 0])
+
+print(Gamma)
+print(asympt_var)
 
 # %%
 
-# num_iters, num_pars = chains.shape
+from statsmodels.regression.linear_model import yule_walker
 
-# selection = ar_select_order(
-#     chains[:, 0],
-#     min(int(np.floor(num_iters)), int(np.floor(10 * np.log10(num_iters)))),
-#     ic='aic',
-#     trend='n',
-#     seasonal=False
-# )
-# print(selection.ar_lags)
-# res = selection.model.fit()
+# %%
+
+a1, b1 = yule_walker(chains[:, 0], order=2, method='mle')
+print(a1)
+print(b1**2)
+
+# %%
+
+from statsmodels.regression.linear_model import burg
+
+# %%
+
+a2, b2 = burg(chains[:, 0], order=2)
+print(a2)
+print(b2)
+
+# %%
+
+num_iters, num_pars = chains.shape
+
+selection = ar_select_order(
+    chains[:, 0],
+    min(int(np.floor(num_iters)), int(np.floor(10 * np.log10(num_iters)))),
+    ic='aic',
+    trend='n',
+    seasonal=False
+)
+print(selection.ar_lags)
+res = selection.model.fit()
 # print(res.summary())
+print(res.params)
+print(res.sigma2)
 
 # %%
 
