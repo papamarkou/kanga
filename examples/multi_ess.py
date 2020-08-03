@@ -54,14 +54,29 @@ def approx_via_arp(x):
 
     return Gamma, asympt_var
 
+# %%
+
 def optimal_batch_size(x):
-    pass
+    num_iters = x.shape[0]
+
+    ar_approximation = np.apply_along_axis(approx_via_arp, 0, x) ** 2
+    coeff = (ar_approximation[0, ].sum() / ar_approximation[1, ].sum()) ** (1 / 3)
+
+    b = int(np.floor((num_iters ** (1 / 3)) * coeff))
+    if b == 0:
+        b = 1
+
+    return b
+
+# %%
 
 # r = 1, 2, 3, 4 or 5
 def mc_cov(x, r=3, batch_size=None, method='bm'):
     if batch_size is None:
         batch_size = optimal_batch_size(x, method=method)
     pass
+
+# %%
 
 def multi_ess(x):
     num_iters, num_pars = x.shape
@@ -83,6 +98,10 @@ Gamma, asympt_var = approx_via_arp(chains[:, 0])
 
 print(Gamma)
 print(asympt_var)
+
+# %%
+
+print(optimal_batch_size(chains))
 
 # %%
 
