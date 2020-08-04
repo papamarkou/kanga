@@ -1,5 +1,6 @@
 numpy
 scipy
+statsmodels>=0.11.1
 arviz>=0.9.0
 matplotlib
 seaborn
