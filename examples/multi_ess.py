@@ -15,6 +15,8 @@ from statsmodels.tsa.stattools import acovf
 # https://arxiv.org/pdf/1804.05975.pdf
 # http://stat.wharton.upenn.edu/~steele/Courses/956/Resource/YWSourceFiles/WhyNotToUseYW.pdf
 # https://ieeexplore.ieee.org/document/4547058
+# https://arxiv.org/pdf/0811.1729.pdf
+# https://arxiv.org/pdf/1809.04541.pdf
 
 # %%
 
@@ -67,6 +69,19 @@ def optimal_batch_size(x):
         b = 1
 
     return b
+
+# %%
+
+def batch_mean(x, b):
+    return [np.mean(x[i*b:((i+1)*b)]) for i in range(len(x) // b)]
+
+# np.var(batch_mean(chains[:, 0], 3), ddof=1)
+
+# %%
+
+def bm_cov(x, b):
+    col_batch_means = np.apply_along_axis(lambda v: batch_mean(v, b), 0, x)
+    return np.cov(col_batch_means.transpose())
 
 # %%
 
