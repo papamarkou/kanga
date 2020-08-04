@@ -72,34 +72,57 @@ def optimal_batch_size(x):
 
 # %%
 
+# Definition of batch means: see p. 7, eq. 6 in https://arxiv.org/pdf/0811.1729.pdf
+
 def batch_mean(x, b):
     return [np.mean(x[i*b:((i+1)*b)]) for i in range(len(x) // b)]
 
-# np.var(batch_mean(chains[:, 0], 3), ddof=1)
+def batch_var(x, b):
+    return np.var(batch_mean(x, b), ddof=1)
 
 # %%
 
 def bm_cov(x, b):
     col_batch_means = np.apply_along_axis(lambda v: batch_mean(v, b), 0, x)
-    return np.cov(col_batch_means.transpose())
+    return b * np.cov(col_batch_means.transpose())
 
 # %%
 
-# r = 1, 2, 3, 4 or 5
-def mc_cov(x, r=3, batch_size=None, method='bm'):
-    if batch_size is None:
-        batch_size = optimal_batch_size(x, method=method)
-    pass
+# b is the batch size
+def mc_cov(x, b=None, r=3):
+    if b is None:
+        b = optimal_batch_size(x)
+
+    if ((r < 0) or (r > 5)):
+        raise ValueError(' r={}. Pick a value of r in between 1 and 5'.format(r))
+
+    if (b == 1 and r != 1):
+        raise ValueError('r={} and b={}. If b=1, then r should be set to 1 too'.format(r, b))
+
+    br = int(np.floor(b / r))
+    if (br < 1):
+        raise ValueError('floor(b/r)={}<1. Increase b or decrease r'.format(br))
+
+    cov_mat = bm_cov(x, b)
+
+    # Possibly use Lugsail lag window (see p. 4, eq. 2 in https://arxiv.org/pdf/1809.04541.pdf)
+    if (r > 1):
+        lug_cov_mat = 2 * cov_mat - bm_cov(x, br)
+
+        if (lug_cov_mat.diagonal().prod() > 0):
+            cov_mat = lug_cov_mat
+
+    return cov_mat
 
 # %%
 
-def multi_ess(x):
+def multi_ess(x, b=None, r=3):
     num_iters, num_pars = x.shape
 
     cov_mat = np.cov(x.transpose())
 
     cov_mat_det = np.linalg.det(cov_mat)
-    mc_cov_mat_det = 1
+    mc_cov_mat_det = np.linalg.det(mc_cov(x, b=b, r=r))
 
     return num_iters * ((cov_mat_det / mc_cov_mat_det) ** (1/num_pars))
 
