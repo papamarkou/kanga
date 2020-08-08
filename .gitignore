@@ -2,6 +2,7 @@ build/
 dist/
 kanga.egg-info/
 kanga/__pycache__/
+kanga/chains/__pycache__/
 kanga/emulators/__pycache__/
 kanga/plots/__pycache__/
 kanga/stats/__pycache__/
