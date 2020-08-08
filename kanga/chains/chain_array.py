@@ -2,6 +2,8 @@ import numpy as np
 
 from pathlib import Path
 
+import kanga.stats as st
+
 class ChainArray:
     def __init__(self, vals):
         self.reset(vals)
@@ -11,19 +13,14 @@ class ChainArray:
 
     @classmethod
     def from_file(selfclass, path, keys=['sample', 'target_val', 'accepted'], dtype=np.float64):
+        keys = set(keys) & set(['sample', 'target_val', 'grad_val', 'accepted'])
 
         vals = {}
-        not_converted = []
 
         for key in keys:
-            if key in ('sample', 'target_val', 'grad_val', 'accepted'):
-                vals[key] = np.loadtxt(
-                    Path(path).joinpath(key+'.csv'), dtype=int if key == 'accepted' else dtype, delimiter=','
-                )
-            else:
-                not_converted.append(key)
+            vals[key] = np.loadtxt(Path(path).joinpath(key+'.csv'), dtype=int if key == 'accepted' else dtype, delimiter=',')
 
-        return selfclass(vals), not_converted
+        return selfclass(vals)
 
     def __repr__(self):
         return f"Markov chain containing {len(self.vals['sample'])} samples."
@@ -33,6 +30,9 @@ class ChainArray:
 
     def num_params(self):
         return len(self.get_sample(0))
+
+    def get_param(self, idx):
+        return self.vals['sample'][:, idx]
 
     def get_sample(self, idx):
         return self.vals['sample'][idx, :]
@@ -62,7 +62,20 @@ class ChainArray:
     def mean(self):
         return self.get_samples().mean(0)
 
+    def running_mean(self, idx):
+        return st.running_mean(self.get_param(idx))
+
+    def running_means(self):
+        return np.array([self.running_mean(i) for i in range(self.num_params())])
+
+    def cor(self):
+        return st.cor(self.get_samples())
+
+    def mc_cov(self, b=None, r=3):
+        return st.mc_cov(self.get_samples(), b=b, r=r)
+
     def acceptance_rate(self):
         return sum(self.vals['accepted'])/len(self.vals['accepted'])
 
-# chain_array, _ = ChainArray.from_file('/Users/9tp/tmp/testing', keys=['sample'])
+    def multi_ess(self, b=None, r=3):
+        return st.multi_ess(self.get_samples(), b=b, r=r)
