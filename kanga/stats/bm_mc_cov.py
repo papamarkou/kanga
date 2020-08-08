@@ -4,7 +4,7 @@ from kanga.emulators import optimal_ar_batch_size
 
 from .bm_cov import bm_cov
 
-def mc_cov(x, b=None, r=3):
+def bm_mc_cov(x, b=None, r=3):
     if b is None:
         b = optimal_ar_batch_size(x)
 
