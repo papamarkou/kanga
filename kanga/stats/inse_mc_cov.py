@@ -1,4 +1,5 @@
-# See https://arxiv.org/pdf/1706.00853.pdf
+# https://www.sciencedirect.com/science/article/pii/S0047259X16301877
+# https://arxiv.org/pdf/1706.00853.pdf
 # The notation follows the implementation of insec.cpp of the mcmcse R package
 
 import numpy as np
