@@ -5,14 +5,17 @@ import numpy as np
 
 from kanga.linalg import is_pos_def
 
-def inse_mc_cov(x):
+def inse_mc_cov(x, adjust=False):
     x = x - x.mean(0)
     
     n, p = x.shape
     
     ub = int(np.floor(n / 2))
     sn = ub
-    
+
+    if adjust:
+        Gamadj = np.zeros([p, p])
+
     for m in range(ub):
         gam0 = np.zeros([p, p])
         gam1 = np.zeros([p, p])
@@ -64,8 +67,16 @@ def inse_mc_cov(x):
         if current_dtm <= last_dtm:
             break
 
-        Sig = Sig1
+        Sig = Sig1.copy()
 
         last_dtm = current_dtm
+
+        if adjust:
+            eigenvals, eigenvecs = np.linalg.eig(Gam)
+            eigenvals[eigenvals > 0] = 0
+            Gamadj = Gamadj - eigenvecs @ np.diag(eigenvals) @ np.linalg.inv(eigenvecs)
+
+    if adjust:
+        Sig = Sig + 2 * Gamadj
 
     return Sig
