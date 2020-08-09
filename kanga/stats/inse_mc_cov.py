@@ -3,14 +3,17 @@
 
 import numpy as np
 
+from kanga.linalg import is_pos_def
+
 def inse_mc_cov(x):
     x = x - x.mean(0)
     
     n, p = x.shape
     
-    sn = int(np.floor(n / 2))
+    ub = int(np.floor(n / 2))
+    sn = ub
     
-    for m in range(sn):
+    for m in range(ub):
         gam0 = np.zeros([p, p])
         gam1 = np.zeros([p, p])
 
@@ -21,8 +24,48 @@ def inse_mc_cov(x):
         for i in range(n - 2 * m - 1):
             gam1 = gam1 + np.outer(x[i, :], x[i + 2 * m + 1, :])
         gam1 = gam1 / n
-        
+
         Gam = gam0 + gam1
         Gam = (Gam + Gam.transpose()) / 2
-        
-        return Gam
+
+        if m == 0:
+            Sig = -gam0 + 2 * Gam
+        else:
+            Sig = Sig + 2 * Gam
+
+        if is_pos_def(Sig):
+            sn = m
+            break
+
+    if sn > (ub-1):
+        raise RuntimeError('Not enough samples')
+
+    last_dtm = np.linalg.det(Sig)
+
+    for m in range(sn + 1, ub):
+        gam0 = np.zeros([p, p])
+        gam1 = np.zeros([p, p])
+
+        for i in range(n - 2 * m):
+            gam0 = gam0 + np.outer(x[i, :], x[i + 2 * m, :])
+        gam0 = gam0 / n
+
+        for i in range(n - 2 * m - 1):
+            gam1 = gam1 + np.outer(x[i, :], x[i + 2 * m + 1, :])
+        gam1 = gam1 / n
+
+        Gam = gam0 + gam1
+        Gam = (Gam + Gam.transpose()) / 2
+
+        Sig1 = Sig + 2 * Gam
+
+        current_dtm = np.linalg.det(Sig1)
+
+        if current_dtm <= last_dtm:
+            break
+
+        Sig = Sig1
+
+        last_dtm = current_dtm
+
+    return Sig

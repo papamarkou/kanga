@@ -14,4 +14,4 @@ chains = np.genfromtxt('chain01.csv', delimiter=',')
 
 inse_mc_cov_val = inse_mc_cov(chains)
 
-print('INSE Monte Carlo covariance estimate: {}'.format(inse_mc_cov_val))
+print('INSE Monte Carlo covariance estimate:\n{}'.format(inse_mc_cov_val))
