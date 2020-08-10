@@ -77,5 +77,5 @@ class ChainArray:
     def acceptance_rate(self):
         return sum(self.vals['accepted'])/len(self.vals['accepted'])
 
-    def multi_ess(self, b=None, r=3):
-        return st.multi_ess(self.get_samples(), b=b, r=r)
+    def multi_ess(self, method='inse', adjust=False, b=None, r=3):
+        return st.multi_ess(self.get_samples(), method=method, adjust=adjust, b=b, r=r)
