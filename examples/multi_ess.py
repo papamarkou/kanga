@@ -1,4 +1,4 @@
-# Compute univariate ESS using multi_ess function based of kanga
+# Compute multivariate ESS using multi_ess function based of kanga
 
 # %% Load packages
 
@@ -10,8 +10,14 @@ from kanga.stats import multi_ess
 
 chains = np.genfromtxt('chain01.csv', delimiter=',')
 
-# %% Compute multivariate ESS
+# %% Compute multivariate ESS using INSE MC covariance estimation
 
 ess_val = multi_ess(chains)
 
-print('Multivariate ESS: {}'.format(ess_val))
+print('Multivariate ESS using INSE MC covariance estimation: {}'.format(ess_val))
+
+# %% Compute multivariate ESS using batch mean MC covariance estimation
+
+ess_val = multi_ess(chains, method='bm')
+
+print('Multivariate ESS using batch mean MC covariance estimation: {}'.format(ess_val))
