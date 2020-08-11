@@ -29,7 +29,7 @@ ps.running_mean(
     chains[:, 0],
     ylim=[-2.7, 0.5],
     margins=0.01,
-    title=r'Running mean plot of parameter $\theta_{}$'.format(1),
+    title=r'Running mean plot of parameter $\theta_{{{}}}$'.format(1),
     xlabel='Iteration',
     ylabel='Running mean'
 )
@@ -43,7 +43,7 @@ ps.running_mean(
     color=['red', 'blue', 'green'],
     ylim=[-2.7, 0.5],
     legend=True,
-    legend_labels=[r'$\theta_{}$'.format(i+1) for i in range(num_pars)],
+    legend_labels=[r'$\theta_{{{}}}$'.format(i+1) for i in range(num_pars)],
     legend_loc='lower center',
     legend_ncol=num_pars,
     legend_fontsize=10

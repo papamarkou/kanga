@@ -29,7 +29,7 @@ ps.trace(
     chains[:, 0],
     ylim=[-8, 10],
     margins=0.01,
-    title=r'Trace plot of parameter $\theta_{}$'.format(1),
+    title=r'Trace plot of parameter $\theta_{{{}}}$'.format(1),
     xlabel='Iteration',
     ylabel='Parameter value'
 )
@@ -43,7 +43,7 @@ ps.trace(
     color=['red', 'blue', 'green'],
     ylim=[-8.5, 11],
     legend=True,
-    legend_labels=[r'$\theta_{}$'.format(i+1) for i in range(num_pars)],
+    legend_labels=[r'$\theta_{{{}}}$'.format(i+1) for i in range(num_pars)],
     legend_loc='upper center',
     legend_ncol=num_pars,
     legend_fontsize=10
