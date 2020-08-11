@@ -13,8 +13,6 @@ class ChainArray:
 
     @classmethod
     def from_file(selfclass, path, keys=['sample', 'target_val', 'accepted'], dtype=np.float64):
-        keys = set(keys) & set(['sample', 'target_val', 'grad_val', 'accepted'])
-
         vals = {}
 
         for key in keys:
@@ -79,3 +77,10 @@ class ChainArray:
 
     def multi_ess(self, method='inse', adjust=False, b=None, r=3):
         return st.multi_ess(self.get_samples(), method=method, adjust=adjust, b=b, r=r)
+
+    def savecsv(self, keys=None, path=Path.cwd(), fmt=None):
+        keys = keys or self.vals.keys()
+        fmt = fmt or ['%.18e' for _ in range(len(keys))]
+
+        for i, key in enumerate(keys):
+            np.savetxt(path.joinpath(key+'.csv'), self.vals[key], fmt=fmt[i], delimiter=',')
