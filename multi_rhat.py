@@ -14,6 +14,10 @@ chains = np.array([np.genfromtxt('chain'+str(i+1).zfill(2)+'.csv', delimiter=','
 
 # %%
 
+print(multi_rhat(chains))
+
+# %%
+
 a = np.array([[2.1, 3], [1.5, 6], [4., 5.]])
 
 # a.mean(axis=0)

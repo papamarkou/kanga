@@ -4,7 +4,7 @@
 
 import numpy as np
 
-from kanga.stats import rhat
+from kanga.stats import uni_arviz_rhat
 
 # %% Read chains
 
@@ -17,6 +17,6 @@ chains = np.array([np.genfromtxt('chain'+str(i+1).zfill(2)+'.csv', delimiter=','
 # See
 # https://mc-stan.org/rstan/reference/Rhat.html
 
-rhat_rank = rhat(chains, method='rank')
+rhat_rank = uni_arviz_rhat(chains, method='rank')
 
 print('rhat based on rank method: {}'.format(rhat_rank))
