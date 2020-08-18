@@ -1,4 +1,4 @@
-# Compute potential scale reduction factor using rhat function of kanga, which is rhat of arviz
+# Compute potential scale reduction factor (Rhat) using rhat function of kanga, which is rhat of arviz
 
 # %% Load packages
 
@@ -7,8 +7,6 @@ import numpy as np
 from kanga.stats import uni_arviz_rhat
 
 # %% Read chains
-
-# chains = genfromtxt('chains01.csv', delimiter=',')
 
 chains = np.array([np.genfromtxt('chain'+str(i+1).zfill(2)+'.csv', delimiter=',') for i in range(4)])
 
