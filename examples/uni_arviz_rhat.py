@@ -22,4 +22,4 @@ chains = np.array([np.genfromtxt('chain'+str(i+1).zfill(2)+'.csv', delimiter=','
 
 rhat_rank = uni_arviz_rhat(chains, method='rank')
 
-print('rhat based on rank method: {}'.format(rhat_rank))
+print('Rhat based on rank method: {}'.format(rhat_rank))
