@@ -12,4 +12,6 @@ chains = np.array([np.genfromtxt('chain'+str(i+1).zfill(2)+'.csv', delimiter=','
 
 # %% Compute multivariate Rhat
 
-print(multi_rhat(chains))
+rhat_val, _, _ = multi_rhat(chains)
+
+print('Multivariate Rhat: {}'.format(rhat_val))

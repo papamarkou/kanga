@@ -9,4 +9,3 @@ from .mean_cor import mean_cor
 from .multi_ess import multi_ess
 from .multi_rhat import multi_rhat
 from .running_mean import running_mean
-from .uni_arviz_rhat import uni_arviz_rhat
