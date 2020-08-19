@@ -1,4 +1,4 @@
-# Compute INSE Monte Carlo covariance estimate using inse_mc_cov function of kanga
+# Compute INSE Monte Carlo covariance estimate using inse_mc_cov function on kanga
 
 # %% Load packages
 

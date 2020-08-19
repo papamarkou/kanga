@@ -1,4 +1,4 @@
-# Compute multivariate ESS using multi_ess function based of kanga
+# Compute multivariate ESS using multi_ess function based on kanga
 
 # %% Load packages
 
