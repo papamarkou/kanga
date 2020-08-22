@@ -12,7 +12,7 @@ class ChainArray:
         self.vals = vals
 
     @classmethod
-    def from_file(selfclass, path, keys=['sample', 'target_val', 'accepted'], dtype=np.float64):
+    def from_file(selfclass, keys=['sample', 'target_val', 'accepted'], path=Path.cwd(), dtype=np.float64):
         vals = {}
 
         for key in keys:
