@@ -24,10 +24,13 @@ class ChainArray:
         return f"Markov chain containing {len(self.vals['sample'])} samples."
 
     def __len__(self):
-        return len(self.get_samples())
+        return self.num_samples()
 
     def num_params(self):
         return len(self.get_sample(0))
+
+    def num_samples(self):
+        return len(self.get_samples())
 
     def get_param(self, idx):
         return self.vals['sample'][:, idx]
