@@ -1,4 +1,4 @@
 import numpy as np
 
-def cor(x):
-    return np.corrcoef(x, rowvar=False)
+def cor(x, rowvar=False):
+    return np.corrcoef(x, rowvar=rowvar)

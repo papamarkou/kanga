@@ -73,7 +73,10 @@ class ChainArray:
         return st.cor(self.get_samples())
 
     def mc_cov(self, method='inse', adjust=False, b=None, r=3):
-        return st.mc_cov(self.get_samples(), method=method, adjust=adjust, b=b, r=r)
+        return st.mc_cov(self.get_samples(), method=method, adjust=adjust, b=b, r=r, rowvar=False)
+
+    def mc_cor(self, method='inse', adjust=False, b=None, r=3):
+        return st.mc_cor(self.get_samples(), method=method, adjust=adjust, b=b, r=r, rowvar=False)
 
     def acceptance_rate(self):
         return sum(self.vals['accepted'])/len(self.vals['accepted'])
