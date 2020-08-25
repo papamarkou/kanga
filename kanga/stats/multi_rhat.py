@@ -5,12 +5,15 @@ import numpy as np
 from .mc_cov import mc_cov
 
 # x is a numpy array of 3 dimensions, (chain, MC iteration, parameter)
-def multi_rhat(x, method='inse', adjust=False, b=None, r=3):
+def multi_rhat(x, cov_matrices=None, method='inse', adjust=False, b=None, r=3):
     num_chains, num_iters, num_pars = x.shape
 
     w = np.zeros([num_pars, num_pars])
     for i in range(num_chains):
-        w = w + mc_cov(x[i], method=method, adjust=adjust, b=b, r=r)
+        if cov_matrices is None:
+            w = w + mc_cov(x[i], method=method, adjust=adjust, b=b, r=r)
+        else:
+            w = w + cov_matrices[i]
     w = w / num_chains
 
     b = np.cov(np.apply_along_axis(np.mean, 1, x), rowvar=False)
