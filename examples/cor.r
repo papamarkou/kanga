@@ -1,8 +1,4 @@
-# Compute initial sequence variance estimator using initseq function of mcmc package
-
-## Load libraries
-
-library(mcmc)
+# Examples of empirical correlation matrix computation using cor function
 
 ## Read chains
 
