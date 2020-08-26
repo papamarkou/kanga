@@ -7,6 +7,8 @@ from .cor_from_cov import cor_from_cov
 from .inse_mc_cov import inse_mc_cov
 from .mc_cor import mc_cor
 from .mc_cov import mc_cov
+from .mc_se import mc_se
+from .mc_se_from_cov import mc_se_from_cov
 from .mean_array_summary import mean_array_summary
 from .mean_cor import mean_cor
 from .multi_ess import multi_ess

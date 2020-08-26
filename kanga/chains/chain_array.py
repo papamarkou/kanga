@@ -64,19 +64,25 @@ class ChainArray:
         return self.get_samples().mean(0)
 
     def running_mean(self, idx):
-        return st.running_mean(self.get_param(idx))
+        return np.array(st.running_mean(self.get_param(idx)))
 
     def running_means(self):
-        return np.array([self.running_mean(i) for i in range(self.num_params())])
+        return np.transpose(np.array([self.running_mean(i) for i in range(self.num_params())]))
 
-    def cor(self):
-        return st.cor(self.get_samples())
+    def mc_se(self, mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
+        if mc_cov_mat is None:
+            return st.mc_se(self.get_samples(), method=method, adjust=adjust, b=b, r=r, rowvar=False)
+        else:
+            return st.mc_se_from_cov(mc_cov_mat)
 
     def mc_cov(self, method='inse', adjust=False, b=None, r=3):
         return st.mc_cov(self.get_samples(), method=method, adjust=adjust, b=b, r=r, rowvar=False)
 
-    def mc_cor(self, method='inse', adjust=False, b=None, r=3):
-        return st.mc_cor(self.get_samples(), method=method, adjust=adjust, b=b, r=r, rowvar=False)
+    def mc_cor(self, mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
+        if mc_cov_mat is None:
+            return st.mc_cor(self.get_samples(), method=method, adjust=adjust, b=b, r=r, rowvar=False)
+        else:
+            return st.cor_from_cov(mc_cov_mat)
 
     def acceptance_rate(self):
         return sum(self.vals['accepted'])/self.num_samples()
