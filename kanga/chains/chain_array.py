@@ -85,10 +85,10 @@ class ChainArray:
             return st.cor_from_cov(mc_cov_mat)
 
     def acceptance_rate(self):
-        return sum(self.vals['accepted'])/self.num_samples()
+        return sum(self.vals['accepted']) / self.num_samples()
 
-    def multi_ess(self, cov_matrix=None, method='inse', adjust=False, b=None, r=3):
-        return st.multi_ess(self.get_samples(), cov_matrix=cov_matrix, method=method, adjust=adjust, b=b, r=r)
+    def multi_ess(self, mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
+        return st.multi_ess(self.get_samples(), mc_cov_mat=mc_cov_mat, method=method, adjust=adjust, b=b, r=r)
 
     def savecsv(self, keys=None, path=Path.cwd(), fmt=None):
         keys = keys or self.vals.keys()
