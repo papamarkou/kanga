@@ -153,6 +153,6 @@ class ChainArrays:
                     g=g_multi_ess_summary, mc_cov_mat=mc_cov_mat, method=method, adjust=adjust, b=b, r=r
                 )
             elif key == 'multi_rhat':
-                summaries[key], _, _ = self.multi_rhat(mc_cov_mat=mc_cov_mat, method=method, adjust=adjust, b=b, r=r)
+                summaries[key], _, _, _, _ = self.multi_rhat(mc_cov_mat=mc_cov_mat, method=method, adjust=adjust, b=b, r=r)
 
         return summaries

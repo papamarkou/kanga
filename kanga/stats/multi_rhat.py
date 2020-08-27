@@ -2,6 +2,8 @@
 
 import numpy as np
 
+from kanga.linalg import is_pos_def, nearest_pd
+
 from .mc_cov import mc_cov
 
 # x is a numpy array of 3 dimensions, (chain, MC iteration, parameter)
@@ -16,9 +18,21 @@ def multi_rhat(x, mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
             w = w + mc_cov_mat[i]
     w = w / num_chains
 
+    if not is_pos_def(w):
+        w = nearest_pd(w)
+        is_w_pd = False
+    else:
+        is_w_pd = True
+
     b = np.cov(np.apply_along_axis(np.mean, 1, x), rowvar=False)
 
-    rhat = max(np.linalg.eigh(np.matmul(np.linalg.inv(w), b))[0])
+    if not is_pos_def(b):
+        b = nearest_pd(b)
+        is_b_pd = False
+    else:
+        is_b_pd = True
+
+    rhat = np.max(np.linalg.eig(np.matmul(np.linalg.inv(w), b))[0])
     rhat = ((num_iters - 1) / num_iters) + ((num_chains + 1) / num_chains) * rhat
 
-    return rhat, w, b
+    return rhat, w, b, is_w_pd, is_b_pd
