@@ -18,7 +18,7 @@ def multi_rhat(x, mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
 
     b = np.cov(np.apply_along_axis(np.mean, 1, x), rowvar=False)
 
-    rhat = max(np.linalg.eig(np.matmul(np.linalg.inv(w), b))[0])
+    rhat = max(np.linalg.eigh(np.matmul(np.linalg.inv(w), b))[0])
     rhat = ((num_iters - 1) / num_iters) + ((num_chains + 1) / num_chains) * rhat
 
     return rhat, w, b

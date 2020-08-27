@@ -73,7 +73,7 @@ def inse_mc_cov(x, adjust=False):
         last_dtm = current_dtm
 
         if adjust:
-            eigenvals, eigenvecs = np.linalg.eig(Gam)
+            eigenvals, eigenvecs = np.linalg.eigh(Gam)
             eigenvals[eigenvals > 0] = 0
             Gamadj = Gamadj - eigenvecs @ np.diag(eigenvals) @ np.linalg.inv(eigenvecs)
 

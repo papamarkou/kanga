@@ -62,7 +62,7 @@ class ChainArrays:
     def mean(self):
         return self.get_samples().mean(1)
 
-    def mean_summary(self, g=lambda x: np.mean(x, dim=0)):
+    def mean_summary(self, g=lambda x: x.mean(0)):
         return g(self.mean())
 
     def mc_se(self, mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
@@ -73,7 +73,7 @@ class ChainArrays:
             for i in range(self.num_chains())
         ])
 
-    def mc_se_summary(self, g=lambda x: np.mean(x, dim=0), mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
+    def mc_se_summary(self, g=lambda x: x.mean(0), mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
         return g(self.mc_se(mc_cov_mat=mc_cov_mat, method=method, adjust=adjust, b=b, r=r))
 
     def mc_cov(self, method='inse', adjust=False, b=None, r=3):
@@ -82,7 +82,7 @@ class ChainArrays:
             for i in range(self.num_chains())
         ])
 
-    def mc_cov_summary(self, g=lambda m: np.mean(m, dim=0), method='inse', adjust=False, b=None, r=3):
+    def mc_cov_summary(self, g=lambda m: m.mean(0), method='inse', adjust=False, b=None, r=3):
         return g(self.mc_cov(method=method, adjust=adjust, b=b, r=r))
 
     def mc_cor(self, mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
@@ -93,7 +93,7 @@ class ChainArrays:
             for i in range(self.num_chains())
         ])
 
-    def mc_cor_summary(self, g=lambda m: np.mean(m, dim=0), mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
+    def mc_cor_summary(self, g=lambda m: m.mean(0), mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
         return g(self.mc_cor(mc_cov_mat=mc_cov_mat, method=method, adjust=adjust, b=b, r=r))
 
     def acceptance(self):
@@ -124,8 +124,8 @@ class ChainArrays:
     def summary(
         self,
         keys=['multi_ess', 'multi_rhat'],
-        g_mean_summary=lambda x: np.mean(x, dim=0),
-        g_mc_se_summary=lambda x: np.mean(x, dim=0),
+        g_mean_summary=lambda x: x.mean(0),
+        g_mc_se_summary=lambda x: x.mean(0),
         g_acceptance_summary=lambda x: sum(x) / len(x),
         g_multi_ess_summary=lambda x: sum(x) / len(x),
         mc_cov_mat=None,
@@ -135,14 +135,14 @@ class ChainArrays:
         r=3):
         summaries = {}
 
-        if any(item in keys for item in ['mcse', 'multi_ess', 'multi_rhat']):
+        if any(item in keys for item in ['mc_se', 'multi_ess', 'multi_rhat']):
             if mc_cov_mat is None:
                 mc_cov_mat = self.mc_cov(method=method, adjust=adjust)
 
         for key in keys:
             if key == 'mean':
                 summaries[key] = self.mean_summary(g=g_mean_summary)
-            elif key == 'mcse':
+            elif key == 'mc_se':
                 summaries[key] = self.mc_se_summary(
                     g=g_mc_se_summary, mc_cov_mat=mc_cov_mat, method=method, adjust=adjust, b=b, r=r
                 )
