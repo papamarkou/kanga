@@ -10,7 +10,8 @@ def fit_ar(x):
         min(int(np.floor(n)), int(np.floor(10 * np.log10(n)))),
         ic='aic',
         trend='n',
-        seasonal=False
+        seasonal=False,
+        old_names=False
     )
 
     order = ar_selection.ar_lags[-1]
