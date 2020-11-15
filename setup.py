@@ -32,5 +32,5 @@ setup(
         'Programming Language :: Python :: 3.7'
     ],
     keywords=['Bayesian', 'diagnostics', 'Markov chains', 'MCMC', 'Monte Carlo'],
-    install_requires=['numpy', 'scipy', 'statsmodels>=0.11.1', 'matplotlib', 'seaborn']
+    install_requires=['numpy', 'scipy', 'statsmodels>=0.11.1', 'matplotlib', 'seaborn>=0.11.0']
 )
