@@ -39,6 +39,8 @@ def hist2d(x, y, figsize=[6.4, 4.8], bins=20, ranges=None, density=False,
         colorbar.ax.tick_params(labelsize=cbar_labelsize)
 
     if fname is not None:
-        plt.savefig(fname, quality=quality, transparent=transparent, bbox_inches=bbox_inches, pad_inches=pad_inches)
+        plt.savefig(
+            fname, pil_kwargs={'quality': quality}, transparent=transparent, bbox_inches=bbox_inches, pad_inches=pad_inches
+        )
 
     return out_h, out_xedges, out_yedges, out_image

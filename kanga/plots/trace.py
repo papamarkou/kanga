@@ -54,4 +54,6 @@ def trace(y, x=None, figsize=[8, 4], linewidth=None, color=None, ylim=None, marg
         plt.legend(handles=handles, labels=legend_labels, loc=legend_loc, ncol=legend_ncol)
 
     if fname is not None:
-        plt.savefig(fname, quality=quality, transparent=transparent, bbox_inches=bbox_inches, pad_inches=pad_inches)
+        plt.savefig(
+            fname, pil_kwargs={'quality': quality}, transparent=transparent, bbox_inches=bbox_inches, pad_inches=pad_inches
+        )

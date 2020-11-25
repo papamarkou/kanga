@@ -36,7 +36,7 @@ def cor_heatmap(x, figsize=[7, 7], gridspec_kw=None, vmin=-1, vmax=1, cmap=redbl
         mask=mask,
         ax=ax
     )
-    
+
     ax.xaxis.tick_top()
     ax.yaxis.tick_right()
 
@@ -46,4 +46,6 @@ def cor_heatmap(x, figsize=[7, 7], gridspec_kw=None, vmin=-1, vmax=1, cmap=redbl
     ax.collections[0].colorbar.ax.tick_params(labelsize=cbar_labelsize)
 
     if fname is not None:
-        plt.savefig(fname, quality=quality, transparent=transparent, bbox_inches=bbox_inches, pad_inches=pad_inches)
+        plt.savefig(
+            fname, pil_kwargs={'quality': quality}, transparent=transparent, bbox_inches=bbox_inches, pad_inches=pad_inches
+        )

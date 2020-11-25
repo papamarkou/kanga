@@ -92,6 +92,8 @@ def acf(data, maxlag=40, normed=True, usevlines=True, figsize=[6.4, 4.8], linewi
         plt.legend(labels=legend_labels, loc=legend_loc, ncol=legend_ncol)
 
     if fname is not None:
-        plt.savefig(fname, quality=quality, transparent=transparent, bbox_inches=bbox_inches, pad_inches=pad_inches)
+        plt.savefig(
+            fname, pil_kwargs={'quality': quality}, transparent=transparent, bbox_inches=bbox_inches, pad_inches=pad_inches
+        )
 
     return out_lags, out_c, out_line, out_b
