@@ -23,14 +23,13 @@ setup(
     author='Theodore Papamarkou',
     author_email='theodore.papamarkou@gmail.com',
     classifiers=[
-        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'Intended Audience :: Science/Research',
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7'
+        'Programming Language :: Python :: 3'
     ],
     keywords=['Bayesian', 'diagnostics', 'Markov chains', 'MCMC', 'Monte Carlo'],
+    python_requires='>=3.6',
     install_requires=['numpy', 'scipy', 'statsmodels>=0.12.0', 'matplotlib>=3.3.3', 'seaborn>=0.11.0']
 )
