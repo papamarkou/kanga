@@ -34,7 +34,7 @@ done
 
 echo 'Uploading packages to anaconda...'
 
-find $HOME/conda-bld/ -name *.tar.bz2 | while read file
+find ${BUILDDIR} -name *.tar.bz2 | while read file
 do
     echo $file
     anaconda upload $file
