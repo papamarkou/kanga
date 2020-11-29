@@ -1,8 +1,5 @@
 # kanga
-MCMC diagnostics in Python
 
-To install kanga using pip, run
+MCMC diagnostics in Python.
 
-```
-pip install kanga
-```
+See the *installation* directory for installation instructions.

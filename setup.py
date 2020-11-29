@@ -31,5 +31,5 @@ setup(
     ],
     keywords=['Bayesian', 'diagnostics', 'Markov chains', 'MCMC', 'Monte Carlo'],
     python_requires='>=3.6',
-    install_requires=['numpy', 'scipy', 'statsmodels>=0.12.0', 'matplotlib>=3.3.2', 'seaborn>=0.11.0']
+    install_requires=['numpy>=1.19.2', 'scipy>=1.5.2', 'statsmodels>=0.12.0', 'matplotlib>=3.3.3', 'seaborn>=0.11.0']
 )
