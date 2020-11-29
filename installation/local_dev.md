@@ -1,9 +1,9 @@
 ## For installation on local machine for development, assuming that conda is available
 
 ```
+PKGNAME='kanga'
 PKGDIR="${HOME}/opt/python/packages"
 PYBIN='python3'
-PKGNAME='kanga'
 
 conda update conda
 conda update --all

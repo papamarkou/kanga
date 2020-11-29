@@ -4,12 +4,22 @@
 ```
 conda install conda-build
 conda install conda-verify
+conda install anaconda-client
+```
+
+### Add conda-forge channel and login to anaconda
+```
+# Add conda-forge channel
+# This is necessary for the installation not to fail
+# See https://github.com/conda/conda-build/issues/3779
+conda config --add channels conda-forge
+
+# Login to anaconda, needed for uploading built packages
+anaconda login
 ```
 
 ### Build kanga using conda
 ```
-anaconda login
-
 cd $HOME
 conda skeleton pypi kanga
 conda build --python 3.6 -c conda-forge kanga
@@ -17,7 +27,7 @@ conda build --python 3.6 -c conda-forge kanga
 
 ### Upload to anaconda
 ```
-# anaconda upload $BUILTFILE
+# anaconda upload $BUILTPKG
 ```
 
 ### Install from anaconda
