@@ -1,25 +1,24 @@
 {% set name = "kanga" %}
-{% set version = "0.0.14" %}
-
+{% set version = "0.0.15" %}
 
 package:
-  name: {{ name|lower }}
-  version: {{ version }}
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 063d19d5772cca87a06651fba0be85dbdbaba97f9cc385c25f872bff16ded44f
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: 27ca7e82e06daef34ebb376076237fdc0caff3c3e1ae7295f5831b138057be67
 
 build:
   number: 0
-  script: {{ PYTHON }} -m pip install . -vv
+  script: "{{ PYTHON }} -m pip install . -vv"
 
 requirements:
   host:
     - pip
     - python
   run:
-    - matplotlib-base >=3.3.3
+    - matplotlib >=3.3.3
     - numpy >=1.19.2
     - python
     - scipy >=1.5.2
@@ -35,10 +34,10 @@ test:
     - pip
 
 about:
-  home: https://github.com/papamarkou/kanga
-  summary: MCMC diagnostics
+  home: "https://github.com/papamarkou/kanga"
   license: MIT
   license_file: LICENSE.txt
+  summary: "MCMC diagnostics"
 
 extra:
   recipe-maintainers:
