@@ -10,6 +10,10 @@ and subsequently run
 ```
 conda install -c papamarkou kanga
 ```
+To install kanga using anaconda without adding the conda-forge channel, run
+```
+conda install -c papamarkou -c conda-forge kanga
+```
 
 To install kanga using pip, run
 ```
