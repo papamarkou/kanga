@@ -8,7 +8,7 @@ PYBIN='python3'
 conda update conda
 conda update --all
 
-conda create -n ${PKGNAME} python=3.6
+conda create -n ${PKGNAME} python=3.8
 
 conda activate ${PKGNAME}
 
