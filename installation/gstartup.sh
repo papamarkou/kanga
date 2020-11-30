@@ -5,12 +5,13 @@
 METAUSER='theodore'
 BASEDIR="/home/$METAUSER"
 
+export PKGNAME='kanga'
+
 export CONDADIR="$BASEDIR/opt/continuum/miniconda/miniconda3"
 
 export CONDABIN="$CONDADIR/bin/conda"
 
 export CONDASCRIPT='Miniconda3-latest-Linux-x86_64.sh'
-export CONDAENV='kanga'
 
 sudo apt-get update
 
@@ -21,7 +22,7 @@ su - $METAUSER -c "chmod u+x $CONDASCRIPT"
 
 su - $METAUSER -c "$SHELL $CONDASCRIPT -b -p $CONDADIR"
 
-su - $METAUSER -c "$CONDABIN create -n $CONDAENV -y -c papamarkou -c conda-forge python=3.8 kanga"
+su - $METAUSER -c "$CONDABIN create -n $PKGNAME -y -c papamarkou -c conda-forge python=3.8 $PKGNAME"
 
 su - $METAUSER -c "$CONDABIN init $(basename $SHELL)"
 su - $METAUSER -c "$CONDABIN config --set auto_activate_base false"
