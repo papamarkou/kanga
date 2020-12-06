@@ -1,5 +1,5 @@
 {% set name = "kanga" %}
-{% set version = "0.0.15" %}
+{% set version = "0.0.16" %}
 
 package:
   name: "{{ name|lower }}"
@@ -7,7 +7,7 @@ package:
 
 source:
   url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
-  sha256: 27ca7e82e06daef34ebb376076237fdc0caff3c3e1ae7295f5831b138057be67
+  sha256: enter-sha256-key-here
 
 build:
   number: 0
