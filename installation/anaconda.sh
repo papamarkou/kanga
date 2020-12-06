@@ -9,7 +9,7 @@
 # anaconda login
 
 PLATFORMS=(osx-64 win-64)
-PYVERSIONS=(3.6 3.7 3.8 3.9)
+PYVERSIONS=(3.6 3.7 3.8)
 PKGNAME='kanga'
 BUILDDIR="${HOME}/opt/continuum/miniconda/miniconda3/envs/${PKGNAME}/conda-bld"
 

@@ -3,12 +3,14 @@
 # Start up script for setting up environment on Ubuntu 20.04 LTS
 
 export PKGNAME='kanga'
-export PYVERSION='3.6'
+export PYVERSION='3.7'
 export CONDADIR="$HOME/opt/continuum/miniconda/miniconda3"
 export PYPKGDIR="$HOME/opt/python/packages"
+export CONDAENV="$CONDADIR/envs/$PKGNAME"
 export CONDABIN="$CONDADIR/bin/conda"
 export CONDASCRIPT='Miniconda3-latest-Linux-x86_64.sh'
 export PKGURL="https://github.com/papamarkou/$PKGNAME.git"
+export PKGDEVREQS="$PYPKGDIR/$PKGNAME/installation/requirements.txt"
 
 sudo apt-get update
 
@@ -24,14 +26,8 @@ $CONDABIN create -n $PKGNAME -y python=$PYVERSION
 $CONDABIN init $(basename $SHELL)
 $CONDABIN config --set auto_activate_base false
 
-source $HOME/.bashrc
-
 mkdir -p $PYPKGDIR
-cd $PYPKGDIR
-git clone $PKGURL
-cd $PKGNAME
-conda activate $PKGNAME
-python setup.py develop --user
-conda deactivate
+git -C $PYPKGDIR clone $PKGURL
+$CONDABIN run -p $CONDAENV pip install -e $PYPKGDIR/$PKGNAME -r $PKGDEVREQS
 
-rm $CONDASCRIPT
+rm $HOME/$CONDASCRIPT

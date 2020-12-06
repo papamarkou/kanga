@@ -22,7 +22,7 @@ anaconda login
 ```
 cd $HOME
 conda skeleton pypi kanga
-conda build --python 3.6 kanga
+conda build --python 3.7 kanga
 ```
 
 ### Upload to anaconda

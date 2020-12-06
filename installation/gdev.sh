@@ -6,7 +6,7 @@ export METAUSER='theodore'
 export BASEDIR="/home/$METAUSER"
 export BINDIR="$BASEDIR/bin"
 export PKGNAME='kanga'
-export PYVERSION='3.6'
+export PYVERSION='3.7'
 export CONDADIR="$BASEDIR/opt/continuum/miniconda/miniconda3"
 export PYPKGDIR="$BASEDIR/opt/python/packages"
 export CONDAENV="$CONDADIR/envs/$PKGNAME"
@@ -32,10 +32,8 @@ su - $METAUSER -c "mkdir -p $BINDIR"
 su - $METAUSER -c "ln -s $CONDABIN $BINDIR"
 su - $METAUSER -c "echo \"export PATH=$BINDIR:$PATH\" >> $BASEDIR/.bashrc"
 
-su - $METAUSER -c "mkdir -p $PYPKGDIR;
-cd $PYPKGDIR;
-git clone $PKGURL;
-cd $PKGNAME;
-$CONDABIN run -p $CONDAENV python setup.py develop --user"
+su - $METAUSER -c "mkdir -p $PYPKGDIR"
+su - $METAUSER -c "git -C $PYPKGDIR clone $PKGURL"
+su - $METAUSER -c "$CONDABIN run -p $CONDAENV pip install -e $PYPKGDIR/$PKGNAME -r $PKGDEVREQS"
 
-rm $CONDASCRIPT
+su - $METAUSER -c "rm $BASEDIR/$CONDASCRIPT"
