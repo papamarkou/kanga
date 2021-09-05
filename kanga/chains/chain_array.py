@@ -87,6 +87,9 @@ class ChainArray:
     def acceptance_rate(self):
         return sum(self.vals['accepted']) / self.num_samples()
 
+    def block_acceptance_rate(self):
+        return np.array(self.vals['accepted']).sum(axis=0) / self.num_samples()
+
     def multi_ess(self, mc_cov_mat=None, method='inse', adjust=False, b=None, r=3):
         return st.multi_ess(self.get_samples(), mc_cov_mat=mc_cov_mat, method=method, adjust=adjust, b=b, r=r)
 
