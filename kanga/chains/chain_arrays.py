@@ -97,7 +97,13 @@ class ChainArrays:
         return g(self.mc_cor(mc_cov_mat=mc_cov_mat, method=method, adjust=adjust, b=b, r=r))
 
     def acceptance(self):
-        return [sum(self.vals['accepted'][i]) / self.num_samples() for i in range(self.num_chains())]
+        return [sum(self.vals['accepted'][i]) / len(self.vals['accepted'][i]) for i in range(len(self.vals['accepted']))]
+
+    def block_acceptance_rate(self):
+        return [
+            np.array(self.vals['accepted'][i]).sum(axis=0) / len(self.vals['accepted'][i])
+            for i in range(len(self.vals['accepted']))
+        ]
 
     def acceptance_summary(self, g=lambda x: sum(x) / len(x)):
         return g(self.acceptance())
